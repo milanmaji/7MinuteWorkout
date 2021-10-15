@@ -63,6 +63,11 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     }
 
+    override fun onBackPressed() {
+        customDialogForBackButton()
+
+    }
+
     private fun customDialogForBackButton() {
         val customDialog = Dialog(this)
         val dialogBinding = DialogCustomBackConfirmationBinding.inflate(layoutInflater)
@@ -85,8 +90,9 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         restTimer = object : CountDownTimer(resetTimerDuration*1000,1000){
             override fun onTick(p0: Long) {
                 restProgress++
-                exerciseBinding.progressBar.progress = 10-restProgress
-                exerciseBinding.tvTimmer.text = (10-restProgress).toString()
+                exerciseBinding.progressBar.max = resetTimerDuration.toInt()
+                exerciseBinding.progressBar.progress = resetTimerDuration.toInt()-restProgress
+                exerciseBinding.tvTimmer.text = (resetTimerDuration.toInt()-restProgress).toString()
 
             }
 
@@ -112,6 +118,7 @@ class ExerciseActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         exerciseTimer = object : CountDownTimer(exerciseTimerDuration*1000,1000){
             override fun onTick(p0: Long) {
                 exerciseProgress++
+                exerciseBinding.pbExercise.max = exerciseTimerDuration.toInt()
                 exerciseBinding.pbExercise.progress = exerciseTimerDuration.toInt()-exerciseProgress
                 exerciseBinding.tvExerciseTimmer.text = (exerciseTimerDuration.toInt()-exerciseProgress).toString()
 
